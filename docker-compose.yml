@@ -1,0 +1,33 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    networks:
+      - film-network
+    # PAS de ports exposés - communication interne uniquement
+      
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    networks:
+      - film-network
+    # PAS de ports exposés - communication interne uniquement
+
+  proxy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"  # SEUL port exposé selon les exigences
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - film-network
+    depends_on:
+      - frontend
+      - backend
+
+networks:
+  film-network:
+    driver: bridge

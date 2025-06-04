@@ -1,0 +1,49 @@
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.backend
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - USE_REDIS=true
+      - OMDB_API_KEY=demo
+      - USE_OMDB=false
+    networks:
+      - film-network
+    depends_on:
+      - redis
+      
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    networks:
+      - film-network
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - film-network
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  proxy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - film-network
+    depends_on:
+      - frontend
+      - backend
+
+networks:
+  film-network:
+    driver: bridge
+
+volumes:
+  redis_data:

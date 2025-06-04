@@ -1,0 +1,19 @@
+{
+  "name": "film-o-metre-backend",
+  "version": "1.0.0",
+  "description": "API backend pour Film-o-mètre avec bonus",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "redis": "^4.6.5",
+    "node-fetch": "^3.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

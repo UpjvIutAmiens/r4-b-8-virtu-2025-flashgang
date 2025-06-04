@@ -1,0 +1,24 @@
+:80 {
+    # Routes API vers le backend
+    handle /api/* {
+        reverse_proxy backend:3000
+    }
+    
+    # Route par défaut vers le frontend
+    handle {
+        reverse_proxy frontend:80
+    }
+    
+    # Headers CORS
+    header {
+        Access-Control-Allow-Origin "*"
+        Access-Control-Allow-Methods "GET, POST, OPTIONS"
+        Access-Control-Allow-Headers "Content-Type"
+    }
+    
+    # Logs pour debug
+    log {
+        output stdout
+        format console
+    }
+}

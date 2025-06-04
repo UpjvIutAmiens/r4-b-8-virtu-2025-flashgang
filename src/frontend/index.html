@@ -27,13 +27,13 @@
         
         <div class="bonus-info">
             <strong>✨ Fonctionnalites bonus activees :</strong><br>
-            🏆 Classement des films | 🌐 API OMDb | 💾 Redis | 📊 Dashboard
+            Classement des films | API OMDb | Redis | Dashboard
         </div>
         
         <div class="nav-buttons">
-            <button onclick="loadFilm()">🎲 Charger un film</button>
-            <button onclick="window.location.href='/classement.html'">🏆 Voir le classement</button>
-            <button onclick="window.location.href='/dashboard.html'">📊 Dashboard</button>
+            <button onclick="loadFilm()">Charger un film</button>
+            <button onclick="window.location.href='/classement.html'">Voir le classement</button>
+            <button onclick="window.location.href='/dashboard.html'">Dashboard</button>
         </div>
         
         <div id="film" style="display:none;">
@@ -42,16 +42,16 @@
                     <img id="poster" src="" alt="Affiche" style="display:none;">
                 </div>
                 <h2 id="title"></h2>
-                <p><strong>📅 Annee:</strong> <span id="year"></span></p>
-                <p><strong>🎭 Realisateur:</strong> <span id="director"></span></p>
-                <p><strong>🎪 Genre:</strong> <span id="genre"></span></p>
+                <p><strong>Annee:</strong> <span id="year"></span></p>
+                <p><strong>Realisateur:</strong> <span id="director"></span></p>
+                <p><strong>Genre:</strong> <span id="genre"></span></p>
                 <p id="description"></p>
                 <p id="rating-info"></p>
                 <div id="omdb-info" style="color: #666; font-size: 0.9em;"></div>
             </div>
             
             <div style="text-align: center;">
-                <h3>⭐ Votre note:</h3>
+                <h3>Votre note:</h3>
                 <div class="stars">
                     <span class="star" onclick="rate(1)">★</span>
                     <span class="star" onclick="rate(2)">★</span>
@@ -59,7 +59,7 @@
                     <span class="star" onclick="rate(4)">★</span>
                     <span class="star" onclick="rate(5)">★</span>
                 </div>
-                <button onclick="submitRating()">✅ Noter ce film</button>
+                <button onclick="submitRating()">Noter ce film</button>
             </div>
         </div>
         
@@ -72,7 +72,7 @@
 
         async function loadFilm() {
             try {
-                console.log('🎬 Chargement film...');
+                console.log('Chargement film...');
                 const response = await fetch('/api/film');
                 currentFilm = await response.json();
                 
@@ -94,16 +94,16 @@
                 // Info OMDb (BONUS 2)
                 let omdbInfo = '';
                 if (currentFilm.imdbRating) {
-                    omdbInfo += `📊 IMDb: ${currentFilm.imdbRating}/10 | `;
+                    omdbInfo += `IMDb: ${currentFilm.imdbRating}/10 | `;
                 }
                 if (currentFilm.runtime) {
-                    omdbInfo += `⏱️ Duree: ${currentFilm.runtime}`;
+                    omdbInfo += `Duree: ${currentFilm.runtime}`;
                 }
                 document.getElementById('omdb-info').innerHTML = omdbInfo;
                 
                 if (currentFilm.averageRating) {
                     document.getElementById('rating-info').innerHTML = 
-                        '<strong>📊 Note moyenne: ' + currentFilm.averageRating + '/5 ⭐ (' + currentFilm.totalRatings + ' votes)</strong>';
+                        '<strong>Note moyenne: ' + currentFilm.averageRating + '/5 ⭐ (' + currentFilm.totalRatings + ' votes)</strong>';
                 } else {
                     document.getElementById('rating-info').innerHTML = '<em>Aucune note pour le moment - Soyez le premier !</em>';
                 }
@@ -113,7 +113,7 @@
                 
             } catch (error) {
                 console.error('Erreur:', error);
-                document.getElementById('result').innerHTML = '<div style="color:red;">❌ Erreur: ' + error.message + '</div>';
+                document.getElementById('result').innerHTML = '<div style="color:red;">Erreur: ' + error.message + '</div>';
             }
         }
 
@@ -132,12 +132,12 @@
 
         async function submitRating() {
             if (!currentFilm || selectedRating === 0) {
-                alert('⚠️ Selectionnez une note !');
+                alert('Selectionnez une note !');
                 return;
             }
             
             try {
-                console.log('📝 Envoi note:', selectedRating);
+                console.log('Envoi note:', selectedRating);
                 const response = await fetch('/api/note', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -149,7 +149,7 @@
                 
                 const result = await response.json();
                 document.getElementById('result').innerHTML = 
-                    '<div class="result">🎉 Note de ' + selectedRating + ' etoile(s) enregistree !</div>';
+                    '<div class="result">Note de ' + selectedRating + ' etoile(s) enregistree !</div>';
                 
                 setTimeout(() => {
                     loadFilm();
@@ -159,13 +159,13 @@
             } catch (error) {
                 console.error('Erreur:', error);
                 document.getElementById('result').innerHTML = 
-                    '<div style="color:red;">❌ Erreur: ' + error.message + '</div>';
+                    '<div style="color:red;">Erreur: ' + error.message + '</div>';
             }
         }
 
         // Auto-load premier film
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('🚀 Film-o-metre charge !');
+            console.log('Film-o-metre charge !');
             loadFilm();
         });
     </script>

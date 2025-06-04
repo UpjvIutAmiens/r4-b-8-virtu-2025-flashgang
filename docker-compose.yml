@@ -5,7 +5,7 @@ services:
       dockerfile: docker/Dockerfile.backend
     networks:
       - film-network
-    # PAS de ports exposés - communication interne uniquement
+    
       
   frontend:
     build:
@@ -13,13 +13,13 @@ services:
       dockerfile: docker/Dockerfile.frontend
     networks:
       - film-network
-    # PAS de ports exposés - communication interne uniquement
+    
 
   proxy:
     image: caddy:2-alpine
     restart: unless-stopped
     ports:
-      - "80:80"  # SEUL port exposé selon les exigences
+      - "80:80"  
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
     networks:
